@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CartService;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -21,13 +22,28 @@ class CartController extends Controller
         $this->cart = $cart;
     }
 
+    private function getCartToken(Request $request): string
+    {
+        $cartToken = $request->cookie('cart_token');
+
+        if ($cartToken) {
+            return $cartToken;
+        }
+
+        $newToken = (string)Str::uuid();
+
+        cookie()->queue(cookie('cart_token', $newToken, 60 * 24 * 7));
+
+        return $newToken;
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCartItems(Request $request)
     {
-        $items = $this->cart->getCartItems($request->cookie('cart_token'));
+        $items = $this->cart->getCartItems($this->getCartToken($request));
 
         return response()->json($items->map(function ($item) {
             return [
@@ -50,7 +66,7 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cart = $this->cart->addToCart($request->cookie('cart_token'), $data['product_id'], $data['quantity']);
+        $cart = $this->cart->addToCart($this->getCartToken($request), $data['product_id'], $data['quantity']);
 
         return response()->json(['success' => true, 'cart_token' => $cart->cart_token]);
     }
@@ -66,7 +82,7 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $this->cart->updateCartItem($request->cookie('cart_token'), $id, $data['quantity']);
+        $this->cart->updateCartItem($this->getCartToken($request), $id, $data['quantity']);
 
         return response()->json(['success' => true]);
     }
@@ -78,7 +94,7 @@ class CartController extends Controller
      */
     public function remove(Request $request, $id)
     {
-        $this->cart->removeCartItem($request->cookie('cart_token'), $id);
+        $this->cart->removeCartItem($this->getCartToken($request), $id);
 
         return response()->json(['success' => true]);
     }

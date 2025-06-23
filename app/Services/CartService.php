@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class CartService
 {
@@ -12,24 +11,20 @@ class CartService
      * @param string|null $cartToken
      * @return mixed
      */
-    public function getOrCreateCart(?string $cartToken)
+    public function getOrCreateCart(string $cartToken)
     {
         if (Auth::check()) {
             return Cart::firstOrCreate(['user_id' => Auth::id()]);
         }
 
-        if ($cartToken) {
-            return Cart::firstOrCreate(['cart_token' => $cartToken]);
-        }
-
-        return Cart::create(['cart_token' => Str::uuid()]);
+        return Cart::firstOrCreate(['cart_token' => $cartToken]);
     }
 
     /**
      * @param string|null $cartToken
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getCartItems(?string $cartToken)
+    public function getCartItems(string $cartToken)
     {
         $cart = $this->getOrCreateCart($cartToken);
 
@@ -42,7 +37,7 @@ class CartService
      * @param int $quantity
      * @return mixed
      */
-    public function addToCart(?string $cartToken, int $productId, int $quantity)
+    public function addToCart(string $cartToken, int $productId, int $quantity)
     {
         $cart = $this->getOrCreateCart($cartToken);
 
@@ -66,7 +61,7 @@ class CartService
      * @param int $productId
      * @param int $quantity
      */
-    public function updateCartItem(?string $cartToken, int $productId, int $quantity)
+    public function updateCartItem(string $cartToken, int $productId, int $quantity)
     {
         $cart = $this->getOrCreateCart($cartToken);
         $item = $cart->items()->where('product_id', $productId)->firstOrFail();
@@ -78,7 +73,7 @@ class CartService
      * @param string|null $cartToken
      * @param int $productId
      */
-    public function removeCartItem(?string $cartToken, int $productId)
+    public function removeCartItem(string $cartToken, int $productId)
     {
         $cart = $this->getOrCreateCart($cartToken);
         $cart->items()->where('product_id', $productId)->delete();
