@@ -10,13 +10,24 @@ use App\Services\CartService;
 
 class AuthController extends Controller
 {
+    /**
+     * @var CartService
+     */
     protected $cartService;
 
+    /**
+     * AuthController constructor.
+     * @param CartService $cartService
+     */
     public function __construct(CartService $cartService)
     {
         $this->cartService = $cartService;
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([

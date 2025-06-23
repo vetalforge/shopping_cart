@@ -22,6 +22,10 @@ class CartController extends Controller
         $this->cart = $cart;
     }
 
+    /**
+     * @param Request $request
+     * @return string
+     */
     private function getCartToken(Request $request): string
     {
         $cartToken = $request->cookie('cart_token');

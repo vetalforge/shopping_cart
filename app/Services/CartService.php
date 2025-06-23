@@ -4,11 +4,12 @@ namespace App\Services;
 
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CartService
 {
     /**
-     * @param string|null $cartToken
+     * @param string $cartToken
      * @return mixed
      */
     public function getOrCreateCart(string $cartToken)
@@ -20,9 +21,10 @@ class CartService
         return Cart::firstOrCreate(['cart_token' => $cartToken]);
     }
 
+
     /**
-     * @param string|null $cartToken
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param string $cartToken
+     * @return mixed
      */
     public function getCartItems(string $cartToken)
     {
@@ -32,7 +34,7 @@ class CartService
     }
 
     /**
-     * @param string|null $cartToken
+     * @param string $cartToken
      * @param int $productId
      * @param int $quantity
      * @return mixed
@@ -57,11 +59,11 @@ class CartService
     }
 
     /**
-     * @param string|null $cartToken
+     * @param string $cartToken
      * @param int $productId
      * @param int $quantity
      */
-    public function updateCartItem(string $cartToken, int $productId, int $quantity)
+    public function updateCartItem(string $cartToken, int $productId, int $quantity): void
     {
         $cart = $this->getOrCreateCart($cartToken);
         $item = $cart->items()->where('product_id', $productId)->firstOrFail();
@@ -70,10 +72,10 @@ class CartService
     }
 
     /**
-     * @param string|null $cartToken
+     * @param string $cartToken
      * @param int $productId
      */
-    public function removeCartItem(string $cartToken, int $productId)
+    public function removeCartItem(string $cartToken, int $productId): void
     {
         $cart = $this->getOrCreateCart($cartToken);
         $cart->items()->where('product_id', $productId)->delete();
@@ -83,7 +85,7 @@ class CartService
      * @param string $cartToken
      * @param int $userId
      */
-    public function assignCartToUser(string $cartToken, int $userId)
+    public function assignCartToUser(string $cartToken, int $userId): void
     {
         $cart = Cart::where('cart_token', $cartToken)->first();
 
