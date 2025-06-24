@@ -52,7 +52,7 @@ class AuthController extends Controller
      *     |\Illuminate\Http\RedirectResponse
      *     |\Illuminate\Routing\Redirector
      */
-    public function fakeLogin()
+    public function fakeLogin(Request $request)
     {
         $user = User::find(1);
 
@@ -61,6 +61,11 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
+
+        $this->cartService->assignCartToUser(
+            $request->cookie('cart_token'),
+            $user->id
+        );
 
         return redirect('/')->with('success', 'Logged in as test user.');
     }
