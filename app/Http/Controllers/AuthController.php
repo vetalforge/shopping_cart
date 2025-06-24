@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Services\CartService;
 
@@ -46,5 +45,35 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application
+     *     |\Illuminate\Http\RedirectResponse
+     *     |\Illuminate\Routing\Redirector
+     */
+    public function fakeLogin()
+    {
+        $user = User::find(1);
+
+        if (!$user) {
+            return redirect('/')->with('error', 'Test user not found.');
+        }
+
+        Auth::login($user);
+
+        return redirect('/')->with('success', 'Logged in as test user.');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application
+     *     |\Illuminate\Http\RedirectResponse
+     *     |\Illuminate\Routing\Redirector
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/');
     }
 }

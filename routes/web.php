@@ -13,5 +13,7 @@ Route::middleware([AttachCartToken::class])->group(function () {
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove']);
 });
 
-Route::post('/login', [AuthController::class, 'login']);
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/login/fake', [AuthController::class, 'fakeLogin'])->name('login.fake');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

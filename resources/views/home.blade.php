@@ -35,12 +35,22 @@
 
     <!-- Top Header -->
     <div class="header">
-        <ul>
-            <li>Bootsrap 4</li>
-            <li>Iconic</li>
-            <li>jQuery</li>
-        </ul>
+        <div class="right">
+            @auth
+                <a href="{{ route('logout') }}" class="auth-btn">Logout</a>
+            @else
+                <a href="{{ route('login.fake') }}" class="auth-btn">Become Admin</a>
+            @endauth
+        </div>
     </div>
+
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
     <div class="products">
         @foreach($products as $product)
