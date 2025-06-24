@@ -28,17 +28,7 @@ class CartController extends Controller
      */
     private function getCartToken(Request $request): string
     {
-        $cartToken = $request->cookie('cart_token');
-
-        if ($cartToken) {
-            return $cartToken;
-        }
-
-        $newToken = (string)Str::uuid();
-
-        cookie()->queue(cookie('cart_token', $newToken, 60 * 24 * 7));
-
-        return $newToken;
+        return $request->cookie('cart_token');
     }
 
     /**
