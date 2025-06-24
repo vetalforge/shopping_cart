@@ -34,28 +34,29 @@ To do this, you need to perform the following steps:
 ### Windows
 
 Clone git repo
->$ git clone https://github.com/vetalforge/shopping_cart.git
+<pre>git clone https://github.com/vetalforge/shopping_cart.git</pre>
 
 Change directory 
->$ cd shopping_cart
+<pre>cd shopping_cart</pre>
 
 Install dependencies via Composer.
->$ composer install
+<pre>composer install</pre>
 
 Create .env file from .env.example.
->$ cp .env.example .env
+<pre>cp .env.example .env</pre>
 
 Create .env.testing file from .env.example.testing
->$ cp .env.testing.example .env.testing
+<pre>cp .env.testing.example .env.testing</pre>
 
-Generate a key.
->$ php artisan key:generate
+Generate keys.
+<pre>php artisan key:generate
+php artisan key:generate --env=testing</pre>
    
 Create main and test databases, name it **"laravel"** and **"test_db_laravel"**. After that create tables using
->$ php artisan migrate
+<pre>php artisan migrate</pre>
 
 Seed products and users to the database
->$ php artisan db:seed
+<pre>php artisan db:seed</pre>
 
 #### Create virtual host in Apache 
 Add this code to **apache\conf\httpd.conf**
@@ -66,44 +67,45 @@ Add this code to **apache\conf\httpd.conf**
 </VirtualHost>
 ```
 Add such a record in **etc\drivers\hosts** 
->127.0.0.1 test.cart
+<pre>127.0.0.1 test.cart</pre>
 
 
 ***
 ### Linux
 
 Clone git repo to /var/www.<br>
->$ git clone https://github.com/vetalforge/shopping_cart.git
->
+<pre>git clone https://github.com/vetalforge/shopping_cart.git</pre>
+
 Change directory to /var/www/shopping_cart.
->$ cd shopping_cart
->
+<pre>cd shopping_cart</pre>
+
 Set permissions by 
->$ sudo chmod -R 777 * 
->
+<pre>sudo chmod -R 777 *</pre>
+
 and define an owner by 
->$ sudo chown -R $USER:$USER .
+<pre>sudo chown -R $USER:$USER .</pre>
   
 Install dependencies via Composer.
->$ composer install
+<pre>composer install</pre>
    
 Create .env file from .env.example.
->$ cp .env.example .env
+<pre>cp .env.example .env</pre>
    
-Generate a key.
->$ php artisan key:generate
+Generate keys.
+<pre>php artisan key:generate 
+php artisan key:generate --env=testing</pre>
 
 Create main and test databases, name it **"laravel"** and **"test_db_laravel"**. After that create tables using
->$ php artisan migrate
+<pre>php artisan migrate</pre>
 
 Seed products and users to the database
->$ php artisan db:seed
+<pre>php artisan db:seed</pre>
 
 #### Create virtual host in Apache 
 Rename **/var/www/shopping_cart** to **/var/www/test.cart**
 
 Add such a record in **/etc/hosts**
->127.0.0.1 test.cart
+<pre>127.0.0.1 test.cart</pre>
           
 Create a configuration file in **/etc/apache2/sites-available/** and name it as **test.cart.conf**
            
@@ -125,9 +127,9 @@ Insert into it this code
 ```
    
 Run these commands
->$ sudo a2ensite test.cart.conf
+<pre>sudo a2ensite test.cart.conf</pre>
 
->$ sudo systemctl restart apache2
+<pre>sudo systemctl restart apache2</pre>
 
 
 After that check http://test.cart
