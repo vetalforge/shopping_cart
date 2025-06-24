@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CartService;
-use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -28,7 +27,7 @@ class CartController extends Controller
      */
     private function getCartToken(Request $request): string
     {
-        return $request->cookie('cart_token');
+        return $request->cookie('cart_token') ?? '';
     }
 
     /**
