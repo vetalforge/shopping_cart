@@ -51,7 +51,7 @@ Create .env.testing file from .env.example.testing
 Generate a key.
 >$ php artisan key:generate
    
-Create two database, name it **"laravel"** and **"test_db_laravel"**. After that create tables using
+Create main and test databases, name it **"laravel"** and **"test_db_laravel"**. After that create tables using
 >$ php artisan migrate
 
 Seed products and users to the database
@@ -67,8 +67,6 @@ Add this code to **apache\conf\httpd.conf**
 ```
 Add such a record in **etc\drivers\hosts** 
 >127.0.0.1 test.cart
-
-
 
 
 ***
@@ -94,7 +92,13 @@ Create .env file from .env.example.
    
 Generate a key.
 >$ php artisan key:generate
-   
+
+Create main and test databases, name it **"laravel"** and **"test_db_laravel"**. After that create tables using
+>$ php artisan migrate
+
+Seed products and users to the database
+>$ php artisan db:seed
+
 #### Create virtual host in Apache 
 Rename **/var/www/shopping_cart** to **/var/www/test.cart**
 
@@ -127,10 +131,3 @@ Run these commands
 
 
 After that check http://test.cart
-
-Create two database, name it **"laravel"** and **"test_db_laravel"**. After that create tables using
->$ php artisan migrate
-
-Seed products and users to the database
->$ php artisan db:seed
-
